@@ -1,19 +1,23 @@
-/* a floating glass bar, inset from the edges. Glass look comes from .glass */
+/* a flat glass bar across the top. Frost comes from .glass, minus its rim and rounding */
 .nav {
   position: sticky;
-  top: 12px;
+  top: 0;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  max-width: 2000px;
-  margin: 12px auto 0;
-  /* lines the bar up with the content column, which centers at 2000px */
-  margin-inline: max(12px, calc(max(0px, (100% - 2000px) / 2) + clamp(16px, 5vw, 120px) - 18px));
-  padding: 0.5rem 0.6rem 0.5rem 0.9rem;
-  border-radius: 999px;
+  padding: 0.7rem max(16px, calc(max(0px, (100% - 2000px) / 2) + clamp(16px, 5vw, 120px)));
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+  box-shadow: 0 10px 30px -20px rgb(0 0 0 / 0.6);
   --glass-blur: 28px;
+}
+
+.nav.glass::before,
+.nav.glass::after {
+  display: none;
 }
 
 .nav-logo {
