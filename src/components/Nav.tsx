@@ -1,5 +1,4 @@
 import { SECTIONS } from "../content/sections";
-import { Icon } from "./Icon";
 
 /** Top bar: logo and a link per section, the active one highlighted. */
 export function Nav({ active }: { active: string }) {
@@ -7,7 +6,7 @@ export function Nav({ active }: { active: string }) {
     <header className="nav">
       <a href="#about" className="nav-logo">
         <span className="logo-mark">
-          <Icon name="cadenza" size={22} />
+          <img src="/cadenza-logo.svg" alt="" width={26} height={26} />
         </span>
         <span className="nav-logo-text">Cadenza</span>
       </a>
