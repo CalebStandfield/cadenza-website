@@ -3,9 +3,11 @@ import { CyclingPhone } from "./components/CyclingPhone";
 import { Nav } from "./components/Nav";
 import { useActiveAnchor } from "./components/useActiveAnchor";
 import { SECTIONS, type PhoneAnchor, type SectionDef } from "./content/sections";
+import { TUTORIAL_STEPS } from "./content/tutorial";
 import { About } from "./sections/About";
 import { Download } from "./sections/Download";
 import { Team } from "./sections/Team";
+import { Tutorial } from "./sections/Tutorial";
 import "./styles/layout.css";
 
 /** The component that renders each section, by section id. */
@@ -13,10 +15,11 @@ const SECTION_BODIES: Record<string, ComponentType<{ section: SectionDef }>> = {
   about: About,
   download: Download,
   team: Team,
+  tutorial: Tutorial,
 };
 
 /** Sections first, then anchors nested inside them, so the nested ones win. */
-const ANCHORS: readonly PhoneAnchor[] = [...SECTIONS];
+const ANCHORS: readonly PhoneAnchor[] = [...SECTIONS, ...TUTORIAL_STEPS];
 const ANCHOR_IDS = ANCHORS.map((anchor) => anchor.id);
 
 export default function App() {
