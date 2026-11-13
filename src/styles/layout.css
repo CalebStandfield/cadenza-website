@@ -92,30 +92,8 @@
   display: none;
 }
 
-.cycling-phone {
+.showcase-phone .phone-stage {
   zoom: var(--phone-zoom, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.cycle-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.cycle-dots span {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--accent);
-  transition: width 0.3s ease, background 0.3s ease;
-}
-
-.cycle-dots span.active {
-  width: 18px;
-  background: var(--brand);
 }
 
 /* bigger screens get a bigger phone */
@@ -184,6 +162,15 @@
 
 .section h3 {
   margin-top: 2rem;
+}
+
+/* padding, not margin, so the parts touch and no gap between them falls back to the section screen */
+.about-part {
+  padding-top: 2rem;
+}
+
+.about-part > h3:first-child {
+  margin-top: 0;
 }
 
 .stack {
@@ -272,11 +259,11 @@
   margin-top: -0.5rem;
 }
 
+/* padding, not gap, so the cards touch and the phone never falls back to the section screen between them */
 .members {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  margin-top: 2.5rem;
+  margin-top: 1rem;
 }
 
 .member {
@@ -284,6 +271,7 @@
   grid-template-columns: 140px minmax(0, 1fr);
   gap: 1.5rem;
   align-items: start;
+  padding: 1.5rem 0;
 }
 
 .member.flip {

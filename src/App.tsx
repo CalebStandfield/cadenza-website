@@ -1,12 +1,12 @@
 import { useRef, type ComponentType } from "react";
-import { CyclingPhone } from "./components/CyclingPhone";
 import { Nav } from "./components/Nav";
+import { PhoneFrame } from "./components/PhoneFrame";
 import { NebulaBackdrop } from "./components/nebula/NebulaBackdrop";
 import { useActiveAnchor } from "./components/useActiveAnchor";
 import { usePhonePose } from "./components/usePhonePose";
 import { useSyncHash } from "./components/useSyncHash";
-import { SECTIONS, type PhoneAnchor, type SectionDef } from "./content/sections";
-import { TUTORIAL_STEPS } from "./content/tutorial";
+import { ANCHORS } from "./content/anchors";
+import { SECTIONS, type SectionDef } from "./content/sections";
 import { About } from "./sections/About";
 import { Download } from "./sections/Download";
 import { Team } from "./sections/Team";
@@ -22,8 +22,6 @@ const SECTION_BODIES: Record<string, ComponentType<{ section: SectionDef }>> = {
   tutorial: Tutorial,
 };
 
-/** Sections first, then anchors nested inside them, so the nested ones win. */
-const ANCHORS: readonly PhoneAnchor[] = [...SECTIONS, ...TUTORIAL_STEPS];
 const ANCHOR_IDS = ANCHORS.map((anchor) => anchor.id);
 
 export default function App() {
@@ -47,7 +45,7 @@ export default function App() {
         </main>
         <aside className="showcase-phone" aria-hidden="true">
           <div className="showcase-phone-sticky" ref={stickyPhone}>
-            <CyclingPhone screens={active.screens} cycleKey={active.id} />
+            <PhoneFrame screen={active.screen} />
           </div>
         </aside>
       </div>

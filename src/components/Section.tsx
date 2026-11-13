@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { SectionDef } from "../content/sections";
-import { CyclingPhone } from "./CyclingPhone";
+import { PhoneFrame } from "./PhoneFrame";
 
 /**
  * One page section. On narrow screens the sticky phone is hidden, so each
@@ -10,7 +10,7 @@ export function Section({ section, children }: { section: SectionDef; children: 
   return (
     <section id={section.id} className="section">
       <div className="section-phone">
-        <CyclingPhone screens={section.screens} cycleKey={section.id} />
+        <PhoneFrame screen={section.screen} />
       </div>
       {children}
     </section>

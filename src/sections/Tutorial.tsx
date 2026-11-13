@@ -1,4 +1,4 @@
-import { CyclingPhone } from "../components/CyclingPhone";
+import { PhoneFrame } from "../components/PhoneFrame";
 import { Section } from "../components/Section";
 import type { SectionDef } from "../content/sections";
 import { TUTORIAL_STEPS } from "../content/tutorial";
@@ -17,7 +17,7 @@ export function Tutorial({ section }: { section: SectionDef }) {
               <h3>{step.title}</h3>
               <p className="muted">{step.body}</p>
               <div className="step-phone">
-                <CyclingPhone screens={step.screens} cycleKey={step.id} />
+                <PhoneFrame screen={step.screen} />
               </div>
             </div>
           </li>

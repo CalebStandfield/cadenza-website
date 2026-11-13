@@ -1,3 +1,4 @@
+import { memberAnchorId } from "../content/anchors";
 import type { TeamMember as Member } from "../content/team";
 import { isExternal, safeHref } from "../lib/safe-url";
 import { Icon, type IconName } from "./Icon";
@@ -25,7 +26,7 @@ export function TeamMember({ member, flip }: { member: Member; flip: boolean }) 
   const mailto = EMAIL.test(member.email) ? `mailto:${member.email}` : "#";
 
   return (
-    <article className={flip ? "member flip" : "member"}>
+    <article id={memberAnchorId(member)} className={flip ? "member flip" : "member"}>
       <div className="member-photo">
         {member.headshot ? (
           <img src={member.headshot} alt={member.name} />
