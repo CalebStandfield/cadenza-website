@@ -1,5 +1,9 @@
 import type { TeamMember as Member } from "../content/team";
+import { isExternal, safeHref } from "../lib/safe-url";
 import { Icon, type IconName } from "./Icon";
+
+/** One plain address, no spaces or ?cc= style extras riding along in the mailto. */
+const EMAIL = /^[^\s@?&#]+@[^\s@?&#]+$/;
 
 const LINKS: { key: keyof Member["links"]; label: string; icon: IconName }[] = [
   { key: "linkedin", label: "LinkedIn", icon: "linkedin" },
@@ -18,7 +22,7 @@ function initials(name: string) {
 
 /** Headshot on one side, bio on the other. `flip` puts the photo on the right. */
 export function TeamMember({ member, flip }: { member: Member; flip: boolean }) {
-  const mailto = member.email.includes("@") ? `mailto:${member.email}` : "#";
+  const mailto = EMAIL.test(member.email) ? `mailto:${member.email}` : "#";
 
   return (
     <article className={flip ? "member flip" : "member"}>
@@ -41,18 +45,22 @@ export function TeamMember({ member, flip }: { member: Member; flip: boolean }) 
           <a href={mailto} className="icon-link" aria-label={`Email ${member.name}`}>
             <Icon name="mail" size={18} />
           </a>
-          {LINKS.map((link) => (
-            <a
-              key={link.key}
-              href={member.links[link.key]}
-              className="icon-link"
-              aria-label={`${member.name} on ${link.label}`}
-              target={member.links[link.key] === "#" ? undefined : "_blank"}
-              rel="noreferrer"
-            >
-              <Icon name={link.icon} size={18} />
-            </a>
-          ))}
+          {LINKS.map((link) => {
+            const href = safeHref(member.links[link.key]);
+            const external = isExternal(href);
+            return (
+              <a
+                key={link.key}
+                href={href}
+                className="icon-link"
+                aria-label={`${member.name} on ${link.label}`}
+                target={external ? "_blank" : undefined}
+                rel={external ? "noopener noreferrer" : undefined}
+              >
+                <Icon name={link.icon} size={18} />
+              </a>
+            );
+          })}
         </div>
       </div>
     </article>

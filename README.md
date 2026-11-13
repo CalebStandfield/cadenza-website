@@ -29,3 +29,7 @@ One page, four sections (About, Download, Team, Tutorial). Text scrolls on the l
 
 - Real TestFlight and APK links in `src/content/downloads.ts`.
 - Bios, headshots (`public/headshots/`), and links for Kevin, Troy, and David in `src/content/team.ts`.
+
+## Security
+
+`vite.config.ts` holds the CSP and security headers. The build adds the CSP meta to `index.html` and writes them to `dist/_headers` (Netlify, Cloudflare Pages); on another host, set the same headers there.

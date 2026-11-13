@@ -2,6 +2,7 @@ import { Icon } from "../components/Icon";
 import { Section } from "../components/Section";
 import { DOWNLOADS } from "../content/downloads";
 import type { SectionDef } from "../content/sections";
+import { safeHref } from "../lib/safe-url";
 
 export function Download({ section }: { section: SectionDef }) {
   return (
@@ -30,7 +31,7 @@ export function Download({ section }: { section: SectionDef }) {
                 <li key={step}>{step}</li>
               ))}
             </ol>
-            <a className="button brand" href={download.href} aria-disabled="true">
+            <a className="button brand" href={safeHref(download.href)} aria-disabled="true">
               <Icon name="download" size={18} /> {download.action}
             </a>
             <span className="muted download-note">{download.note}</span>
