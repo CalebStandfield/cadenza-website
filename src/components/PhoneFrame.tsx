@@ -11,13 +11,25 @@ const TABS: { name: TabName; label: string; icon: IconName }[] = [
   { name: "search", label: "Search", icon: "search" },
 ];
 
-/** Layers behind the face, each a little deeper, that read as the phone's metal edge when it turns. */
-const EDGE_LAYERS = 8;
+/** Layers behind the face, each a little deeper, that together read as the metal side wall. */
+const EDGE_LAYERS = 14;
+
+/**
+ * Darkness of edge layer `i`, 0 to 1. The flat middle of the side wall
+ * catches the light, the rounded front and back edges turn away from it.
+ */
+function edgeShade(i: number) {
+  const t = (i / (EDGE_LAYERS - 1)) * 2 - 1;
+  return 0.1 + 0.45 * t ** 4 + (t > 0 ? 0.15 * t : 0);
+}
+
+/** Side buttons, iPhone 15 Pro layout: action and volume on the left, side button on the right. */
+const BUTTONS = ["action", "volume-up", "volume-down", "power"] as const;
 
 /**
  * An iPhone shaped frame showing one screen, fading in when it changes. Sits
  * in 3D: turned by the --rx, --ry, --rz variables it inherits (see
- * usePhonePose), with a metal edge, glare on the glass and a floor shadow.
+ * usePhonePose), with a titanium side wall, buttons, glass and a floor shadow.
  */
 export function PhoneFrame({ screen }: { screen: ScreenKey }) {
   const def = SCREENS[screen];
@@ -27,13 +39,16 @@ export function PhoneFrame({ screen }: { screen: ScreenKey }) {
       <div className="phone-float">
         <div className="phone-3d">
           {Array.from({ length: EDGE_LAYERS }, (_, i) => (
-            <span key={i} className="phone-edge" style={{ "--depth": i + 1 } as CSSProperties} />
+            <span
+              key={i}
+              className="phone-edge"
+              style={{ "--depth": i + 1, "--shade": edgeShade(i).toFixed(3) } as CSSProperties}
+            />
+          ))}
+          {BUTTONS.map((button) => (
+            <span key={button} className={`phone-button ${button}`} />
           ))}
           <div className="phone">
-            <span className="phone-button action" />
-            <span className="phone-button volume-up" />
-            <span className="phone-button volume-down" />
-            <span className="phone-button power" />
             <div className="phone-screen">
               <div className="phone-status">
                 <span>9:41</span>
@@ -56,8 +71,8 @@ export function PhoneFrame({ screen }: { screen: ScreenKey }) {
                   ))}
                 </nav>
               ) : null}
-              <span className="phone-glare" />
             </div>
+            <span className="phone-glare" />
           </div>
         </div>
       </div>
