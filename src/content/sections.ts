@@ -8,7 +8,7 @@ export type PhoneAnchor = {
   section?: string;
 };
 
-/** How the phone is turned, in degrees. Positive ry turns the screen toward the text on the left. */
+/** How the phone is turned, in degrees. Negative ry turns the screen toward the text on the left. */
 export type PhonePose = { rx: number; ry: number; rz: number };
 
 export type SectionDef = PhoneAnchor & {
@@ -22,14 +22,14 @@ export const SECTIONS: readonly SectionDef[] = [
     id: "about",
     label: "About",
     screens: ["library", "tags", "query", "analytics"],
-    pose: { rx: 8, ry: 18, rz: -2 },
+    pose: { rx: 8, ry: -18, rz: 2 },
   },
-  { id: "download", label: "Download", screens: ["connect", "player"], pose: { rx: 4, ry: -14, rz: 2 } },
-  { id: "team", label: "Team", screens: ["social", "player"], pose: { rx: 12, ry: 10, rz: 3 } },
+  { id: "download", label: "Download", screens: ["connect", "player"], pose: { rx: 4, ry: -10, rz: -1 } },
+  { id: "team", label: "Team", screens: ["social", "player"], pose: { rx: 12, ry: -14, rz: 3 } },
   {
     id: "tutorial",
     label: "Tutorial",
     screens: ["connect", "suggest", "query", "analytics"],
-    pose: { rx: 5, ry: 24, rz: -1 },
+    pose: { rx: 5, ry: -24, rz: 1 },
   },
 ];

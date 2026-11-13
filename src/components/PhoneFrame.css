@@ -13,13 +13,13 @@
 @property --ry {
   syntax: "<number>";
   inherits: true;
-  initial-value: 16;
+  initial-value: -16;
 }
 
 @property --rz {
   syntax: "<number>";
   inherits: true;
-  initial-value: -2;
+  initial-value: 2;
 }
 
 .phone-stage {
