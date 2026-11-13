@@ -1,0 +1,55 @@
+.arch {
+  margin: 1.5rem 0;
+}
+
+.arch svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.arch figcaption {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.arch-box rect {
+  fill: var(--card);
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.arch-box.brand rect {
+  stroke: var(--brand);
+}
+
+.arch-box.note rect {
+  stroke: var(--logo-note);
+}
+
+.arch-box.flag rect {
+  stroke: var(--logo-flag);
+}
+
+.arch-title {
+  fill: var(--foreground);
+  font-size: 14px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.arch-sub {
+  fill: var(--muted-foreground);
+  font-size: 11px;
+  text-anchor: middle;
+}
+
+.arch-link {
+  stroke: var(--ring);
+  stroke-width: 1.5;
+}
+
+
+.arch-arrowhead {
+  fill: var(--ring);
+}
