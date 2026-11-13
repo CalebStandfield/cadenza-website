@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 /**
  * Id of the anchor crossing the middle of the viewport. When several cross
  * at once (a step inside a section), the one latest in `ids` wins, so list
- * nested anchors after their parents.
+ * nested anchors after their parents. Null until the first observation.
  */
-export function useActiveAnchor(ids: readonly string[]): string {
-  const [active, setActive] = useState(ids[0]);
+export function useActiveAnchor(ids: readonly string[]): string | null {
+  const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
     const visible = new Set<string>();
