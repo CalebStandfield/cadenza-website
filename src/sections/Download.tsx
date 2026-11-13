@@ -15,7 +15,7 @@ export function Download({ section }: { section: SectionDef }) {
       </p>
       <div className="downloads">
         {DOWNLOADS.map((download) => (
-          <div key={download.platform} className="card download">
+          <div key={download.platform} className="glass download">
             <div className="download-head">
               <span className="download-icon">
                 <Icon name={download.icon} size={26} />

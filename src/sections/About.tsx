@@ -41,7 +41,7 @@ const PART_BODIES: Record<string, ReactNode> = {
       <ArchitectureDiagram />
       <ul className="stack">
         {STACK.map((item) => (
-          <li key={item.name}>
+          <li key={item.name} className="glass">
             <strong>{item.name}</strong>
             <span className="muted">{item.what}</span>
           </li>

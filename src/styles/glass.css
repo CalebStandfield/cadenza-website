@@ -1,0 +1,99 @@
+/*
+ * Frosted glass panel. Blurs and saturates whatever is behind it (the
+ * nebula), with a light rim that is brightest toward the light at the upper
+ * left, a highlight along the top inner edge, and a soft drop shadow.
+ * Add `glass` to any element; `glass-interactive` adds hover and press.
+ */
+:root {
+  --glass-tint: rgb(255 255 255 / 0.06);
+  --glass-tint-end: rgb(255 255 255 / 0.015);
+  --glass-rim-hi: rgb(255 255 255 / 0.38);
+  --glass-rim-lo: rgb(255 255 255 / 0.05);
+  --glass-top: rgb(255 255 255 / 0.16);
+  --glass-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.65), 0 2px 6px -2px rgb(0 0 0 / 0.35);
+  --glass-blur: 22px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --glass-tint: rgb(255 255 255 / 0.5);
+    --glass-tint-end: rgb(255 255 255 / 0.28);
+    --glass-rim-hi: rgb(255 255 255 / 0.95);
+    --glass-rim-lo: rgb(0 0 0 / 0.06);
+    --glass-top: rgb(255 255 255 / 0.9);
+    --glass-shadow: 0 18px 40px -20px rgb(60 20 30 / 0.35), 0 2px 6px -2px rgb(60 20 30 / 0.12);
+  }
+}
+
+.glass {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(150deg, var(--glass-tint), var(--glass-tint-end));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow:
+    inset 0 1px 0 var(--glass-top),
+    inset 0 -1px 0 rgb(0 0 0 / 0.12),
+    var(--glass-shadow);
+}
+
+/* the rim: a 1px gradient ring, bright at the lit corner, fading around */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    140deg,
+    var(--glass-rim-hi) 0%,
+    var(--glass-rim-lo) 38%,
+    var(--glass-rim-lo) 70%,
+    color-mix(in srgb, var(--glass-rim-hi) 55%, transparent) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+/* a soft sheen across the upper part of the pane */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(120% 60% at 20% 0%, rgb(255 255 255 / 0.08), transparent 60%);
+  pointer-events: none;
+}
+
+.glass-interactive {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.glass-interactive:hover {
+  --glass-tint: rgb(255 255 255 / 0.11);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.glass-interactive:active {
+  transform: translateY(0) scale(0.98);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: var(--card);
+  }
+}

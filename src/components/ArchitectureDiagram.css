@@ -1,6 +1,7 @@
 .arch {
   max-width: 960px;
   margin: 1.5rem 0;
+  padding: 1.25rem 1.25rem 1rem;
 }
 
 .arch svg {
@@ -14,8 +15,9 @@
   margin-top: 0.5rem;
 }
 
+/* boxes are panes on the glass: a faint fill, the panel already blurs */
 .arch-box rect {
-  fill: var(--card);
+  fill: rgb(255 255 255 / 0.05);
   stroke: var(--border);
   stroke-width: 1.5;
 }

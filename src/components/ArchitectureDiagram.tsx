@@ -26,7 +26,7 @@ const LINKS: [number, number][] = [
 /** How the pieces talk to each other. */
 export function ArchitectureDiagram() {
   return (
-    <figure className="arch">
+    <figure className="arch glass">
       <svg viewBox="0 0 770 240" role="img" aria-label="Cadenza architecture">
         <defs>
           <marker id="arch-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">

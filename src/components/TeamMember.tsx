@@ -43,8 +43,9 @@ export function TeamMember({ member, flip }: { member: Member; flip: boolean }) 
           <p key={paragraph.slice(0, 24)}>{paragraph}</p>
         ))}
         <div className="member-links">
-          <a href={mailto} className="icon-link" aria-label={`Email ${member.name}`}>
-            <Icon name="mail" size={18} />
+          <a href={mailto} className="member-link glass glass-interactive" aria-label={`Email ${member.name}`}>
+            <Icon name="mail" size={16} />
+            Email
           </a>
           {LINKS.map((link) => {
             const href = safeHref(member.links[link.key]);
@@ -53,12 +54,13 @@ export function TeamMember({ member, flip }: { member: Member; flip: boolean }) 
               <a
                 key={link.key}
                 href={href}
-                className="icon-link"
+                className="member-link glass glass-interactive"
                 aria-label={`${member.name} on ${link.label}`}
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener noreferrer" : undefined}
               >
-                <Icon name={link.icon} size={18} />
+                <Icon name={link.icon} size={16} />
+                {link.label}
               </a>
             );
           })}
