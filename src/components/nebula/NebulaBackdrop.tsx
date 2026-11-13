@@ -1,49 +1,62 @@
-import { useState, type CSSProperties } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
+import type { WeightedColor } from "../../theme";
+import { pickWeighted, seededRandom } from "./random";
+import { useRegionGrid } from "./useRegionGrid";
 import "./nebula.css";
 
-/** How many glows, laid out on a jittered grid so they spread evenly. */
-const COLS = 6;
-const ROWS = 5;
-
-/** Diameter range, in vmax, so the field looks the same on any screen. */
-const SIZE_VMAX = [10, 34] as const;
-/** Seconds for one leg of a glow's wander. Long, so motion is barely there. */
-const DRIFT_S = [80, 160] as const;
+/** Target region size. More regions on bigger screens. */
+const CELL_PX = 380;
+/** Glow diameter as a multiple of its region, so neighbors overlap and fill the dark. */
+const SIZE = [1.9, 2.5] as const;
+/** How far a glow may wander from its region's center, as a fraction of the region. */
+const WANDER = 0.22;
+/** Seconds for one full wander loop. Long, so motion is barely there. */
+const LOOP_S = [150, 300] as const;
 /** Seconds for one swell of a glow's brightness. */
 const BREATH_S = [18, 40] as const;
-/** How far a glow wanders from its home, in vw / vh. */
-const WANDER = 9;
 
 type Glow = {
-  x: number;
-  y: number;
-  size: number;
-  color: string;
-  drift: number;
-  breath: number;
-  /** Two waypoints, as offsets from home. */
-  path: [number, number, number, number];
-  delay: number;
+  key: string;
+  style: CSSProperties;
 };
 
-function between([low, high]: readonly [number, number]) {
-  return low + Math.random() * (high - low);
+function between(random: () => number, [low, high]: readonly [number, number]) {
+  return low + random() * (high - low);
 }
 
-function makeGlows(colors: readonly string[]): Glow[] {
+/** One glow per region. Seeded by region and visit, so a resize keeps the glows it already had. */
+function makeGlows(cols: number, rows: number, colors: readonly WeightedColor[], visitSeed: number): Glow[] {
+  const cellW = 100 / cols; // vw
+  const cellH = 100 / rows; // vh
   const glows: Glow[] = [];
-  for (let row = 0; row < ROWS; row++) {
-    for (let col = 0; col < COLS; col++) {
-      const wander = () => (Math.random() * 2 - 1) * WANDER;
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const random = seededRandom(visitSeed ^ (row * 7919 + col * 104729));
+      const wander = (cell: number) => (random() * 2 - 1) * WANDER * cell;
+      const size = between(random, SIZE);
+      const loop = between(random, LOOP_S);
+      const breath = between(random, BREATH_S);
+
       glows.push({
-        x: ((col + Math.random()) / COLS) * 110 - 5,
-        y: ((row + Math.random()) / ROWS) * 110 - 5,
-        size: between(SIZE_VMAX),
-        color: colors[Math.floor(Math.random() * colors.length)],
-        drift: between(DRIFT_S),
-        breath: between(BREATH_S),
-        path: [wander(), wander(), wander(), wander()],
-        delay: Math.random(),
+        key: `${col}-${row}`,
+        style: {
+          left: `${(col + 0.5) * cellW}vw`,
+          top: `${(row + 0.5) * cellH}vh`,
+          width: `${size * cellW}vw`,
+          height: `${size * cellH}vh`,
+          "--glow-color": pickWeighted(colors, random()).color,
+          "--loop-s": `${loop}s`,
+          "--breath-s": `${breath}s`,
+          "--loop-delay": `${-random() * loop}s`,
+          "--breath-delay": `${-random() * breath}s`,
+          "--x1": `${wander(cellW)}vw`,
+          "--y1": `${wander(cellH)}vh`,
+          "--x2": `${wander(cellW)}vw`,
+          "--y2": `${wander(cellH)}vh`,
+          "--x3": `${wander(cellW)}vw`,
+          "--y3": `${wander(cellH)}vh`,
+        } as CSSProperties,
       });
     }
   }
@@ -51,38 +64,21 @@ function makeGlows(colors: readonly string[]): Glow[] {
 }
 
 /**
- * A calm field of soft glows behind the whole page, fixed to the viewport, in
- * the app's Apple Music nebula colors. Each glow wanders a slow loop of its
- * own and gently swells, so the page is never quite still. The layout is
- * random per visit. Holds still under reduced motion.
+ * A calm nebula behind the whole page, fixed to the viewport. The screen is
+ * split into regions, more on bigger screens, and each region holds one large
+ * glow that wanders a slow loop around its own center and gently swells.
+ * Glows overlap their neighbors so little of the page stays dark. Colors are
+ * picked by weight. Random per visit. Holds still under reduced motion.
  */
-export function NebulaBackdrop({ colors }: { colors: readonly string[] }) {
-  const [glows] = useState(() => makeGlows(colors));
+export function NebulaBackdrop({ colors }: { colors: readonly WeightedColor[] }) {
+  const { cols, rows } = useRegionGrid(CELL_PX);
+  const [visitSeed] = useState(() => Math.floor(Math.random() * 2 ** 31));
+  const glows = useMemo(() => makeGlows(cols, rows, colors, visitSeed), [cols, rows, colors, visitSeed]);
 
   return (
     <div className="nebula" aria-hidden="true">
-      {glows.map((glow, i) => (
-        <span
-          key={i}
-          className="nebula-glow"
-          style={
-            {
-              left: `${glow.x}%`,
-              top: `${glow.y}%`,
-              width: `${glow.size}vmax`,
-              height: `${glow.size}vmax`,
-              "--glow-color": glow.color,
-              "--drift-s": `${glow.drift}s`,
-              "--breath-s": `${glow.breath}s`,
-              "--drift-delay": `${-glow.delay * glow.drift * 3}s`,
-              "--breath-delay": `${-glow.delay * glow.breath}s`,
-              "--x1": `${glow.path[0]}vw`,
-              "--y1": `${glow.path[1]}vh`,
-              "--x2": `${glow.path[2]}vw`,
-              "--y2": `${glow.path[3]}vh`,
-            } as CSSProperties
-          }
-        />
+      {glows.map((glow) => (
+        <span key={glow.key} className="nebula-glow" style={glow.style} />
       ))}
     </div>
   );

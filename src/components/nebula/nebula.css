@@ -6,7 +6,7 @@
   --neb-min-l: 0.5;
   --neb-max-l: 0.68;
   --neb-max-c: 0.16;
-  --neb-peak: 0.32;
+  --neb-peak: 0.4;
   position: fixed;
   inset: 0;
   z-index: -1;
@@ -19,7 +19,7 @@
     --neb-min-l: 0.72;
     --neb-max-l: 0.86;
     --neb-max-c: 0.12;
-    --neb-peak: 0.3;
+    --neb-peak: 0.34;
   }
 }
 
@@ -38,33 +38,36 @@
     transparent 100%
   );
   animation:
-    nebula-wander calc(var(--drift-s) * 3) var(--drift-delay) ease-in-out infinite,
+    nebula-wander var(--loop-s) var(--loop-delay) ease-in-out infinite,
     nebula-breathe var(--breath-s) var(--breath-delay) ease-in-out infinite alternate;
   will-change: transform, opacity;
 }
 
-/* a slow closed loop: home, first waypoint, second waypoint, home */
+/* a slow closed loop around the region's center, never leaving it */
 @keyframes nebula-wander {
   0%,
   100% {
     transform: translate(0, 0);
   }
-  33% {
+  25% {
     transform: translate(var(--x1), var(--y1));
   }
-  66% {
+  50% {
     transform: translate(var(--x2), var(--y2));
+  }
+  75% {
+    transform: translate(var(--x3), var(--y3));
   }
 }
 
 @keyframes nebula-breathe {
   from {
-    opacity: 0.55;
-    scale: 0.92;
+    opacity: 0.7;
+    scale: 0.94;
   }
   to {
     opacity: 1;
-    scale: 1.08;
+    scale: 1.06;
   }
 }
 
