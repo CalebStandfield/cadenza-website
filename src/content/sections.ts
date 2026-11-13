@@ -11,8 +11,8 @@ export type PhoneAnchor = {
 export type SectionDef = PhoneAnchor & { label: string };
 
 export const SECTIONS: readonly SectionDef[] = [
-  { id: "about", label: "About", screens: ["home"] },
-  { id: "download", label: "Download", screens: ["home"] },
-  { id: "team", label: "Team", screens: ["home"] },
-  { id: "tutorial", label: "Tutorial", screens: ["home"] },
+  { id: "about", label: "About", screens: ["library", "tags", "query", "analytics"] },
+  { id: "download", label: "Download", screens: ["connect", "player"] },
+  { id: "team", label: "Team", screens: ["social", "player"] },
+  { id: "tutorial", label: "Tutorial", screens: ["connect", "suggest", "query", "analytics"] },
 ];
