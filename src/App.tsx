@@ -1,8 +1,9 @@
-import type { ComponentType } from "react";
+import { useRef, type ComponentType } from "react";
 import { CyclingPhone } from "./components/CyclingPhone";
 import { Nav } from "./components/Nav";
 import { NebulaBackdrop } from "./components/nebula/NebulaBackdrop";
 import { useActiveAnchor } from "./components/useActiveAnchor";
+import { usePhonePose } from "./components/usePhonePose";
 import { useSyncHash } from "./components/useSyncHash";
 import { SECTIONS, type PhoneAnchor, type SectionDef } from "./content/sections";
 import { TUTORIAL_STEPS } from "./content/tutorial";
@@ -27,6 +28,8 @@ const ANCHOR_IDS = ANCHORS.map((anchor) => anchor.id);
 
 export default function App() {
   const activeId = useActiveAnchor(ANCHOR_IDS);
+  const stickyPhone = useRef<HTMLDivElement>(null);
+  usePhonePose(stickyPhone, SECTIONS);
   const active = ANCHORS.find((anchor) => anchor.id === activeId) ?? ANCHORS[0];
   const activeSection = active.section ?? active.id;
   useSyncHash(activeId ? activeSection : null);
@@ -43,7 +46,7 @@ export default function App() {
           })}
         </main>
         <aside className="showcase-phone" aria-hidden="true">
-          <div className="showcase-phone-sticky">
+          <div className="showcase-phone-sticky" ref={stickyPhone}>
             <CyclingPhone screens={active.screens} cycleKey={active.id} />
           </div>
         </aside>

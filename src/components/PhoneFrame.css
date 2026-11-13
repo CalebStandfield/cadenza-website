@@ -1,13 +1,144 @@
+/*
+ * The phone sits in 3D. --rx, --ry, --rz are unitless degrees, written by
+ * usePhonePose on the sticky phone. Phones elsewhere use the default pose.
+ */
+.phone-stage {
+  --rx: 7;
+  --ry: 16;
+  --rz: -2;
+  position: relative;
+  perspective: 1800px;
+  padding: 24px 0 40px;
+}
+
+.phone-float {
+  animation: phone-float 9s ease-in-out infinite alternate;
+}
+
+@keyframes phone-float {
+  from {
+    translate: 0 -6px;
+  }
+  to {
+    translate: 0 6px;
+  }
+}
+
+.phone-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--rx) * 1deg)) rotateY(calc(var(--ry) * 1deg)) rotateZ(calc(var(--rz) * 1deg));
+}
+
+/* stacked slabs behind the face, darker as they go back, read as a titanium edge */
+.phone-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  transform: translateZ(calc(var(--depth) * -1.4px));
+  background: linear-gradient(
+    calc(120deg + var(--ry) * 2deg),
+    #8e8e93 0%,
+    #3a3a3c 35%,
+    #1c1c1e 60%,
+    #636366 100%
+  );
+  filter: brightness(calc(1 - var(--depth) * 0.06));
+}
+
 .phone {
+  position: relative;
   width: 300px;
   aspect-ratio: 9 / 19.5;
   padding: 11px;
   border-radius: 50px;
-  background: #1c1c1e;
+  /* titanium band, lit from the upper left, with a hot spot on the corner */
+  background:
+    radial-gradient(
+      circle at calc(10% - var(--ry) * 0.6%) calc(4% + var(--rx) * 0.3%),
+      rgb(255 255 255 / 0.75),
+      rgb(255 255 255 / 0) 14%
+    ),
+    radial-gradient(
+      circle at calc(92% - var(--ry) * 0.4%) 97%,
+      rgb(255 255 255 / 0.3),
+      rgb(255 255 255 / 0) 10%
+    ),
+    linear-gradient(
+      calc(135deg + var(--ry) * 1.5deg),
+      #a1a1a6 0%,
+      #48484a 18%,
+      #1c1c1e 45%,
+      #2c2c2e 75%,
+      #8e8e93 100%
+    );
   box-shadow:
-    0 0 0 2px #3a3a3c,
-    0 30px 80px -20px rgb(0 0 0 / 0.6);
+    inset 0 0 0 1px rgb(255 255 255 / 0.18),
+    inset 0 0 0 4px #0b0b0c;
   flex-shrink: 0;
+}
+
+.phone-button {
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #2c2c2e, #8e8e93 60%, #48484a);
+}
+
+.phone-button.action {
+  left: -3px;
+  top: 17%;
+  height: 5%;
+}
+
+.phone-button.volume-up {
+  left: -3px;
+  top: 25%;
+  height: 9%;
+}
+
+.phone-button.volume-down {
+  left: -3px;
+  top: 36%;
+  height: 9%;
+}
+
+.phone-button.power {
+  right: -3px;
+  top: 28%;
+  height: 14%;
+}
+
+/* light across the glass, sliding as the phone turns */
+.phone-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    rgb(255 255 255 / 0) 30%,
+    rgb(255 255 255 / 0.13) 44%,
+    rgb(255 255 255 / 0.03) 52%,
+    rgb(255 255 255 / 0) 62%
+  );
+  background-size: 260% 100%;
+  background-position: calc(50% - var(--ry) * 2.5%) 0;
+  mix-blend-mode: screen;
+}
+
+.phone-shadow {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 6px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.55);
+  filter: blur(18px);
+  transform: translateX(calc(var(--ry) * -1.2px)) scaleX(calc(1 - var(--ry) * var(--ry) * 0.0004));
+  z-index: -1;
 }
 
 .phone-screen {
@@ -102,7 +233,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .phone-content {
+  .phone-content,
+  .phone-float {
     animation: none;
   }
 }
