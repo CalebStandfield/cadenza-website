@@ -11,7 +11,7 @@ import { About } from "./sections/About";
 import { Download } from "./sections/Download";
 import { Team } from "./sections/Team";
 import { Tutorial } from "./sections/Tutorial";
-import { PAGE_NEBULA } from "./theme";
+import { PAGE_NEBULA, PAGE_NEBULA_BLUE } from "./theme";
 import "./styles/layout.css";
 
 /** The component that renders each section, by section id. */
@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <>
-      <NebulaBackdrop colors={PAGE_NEBULA} />
+      <NebulaBackdrop colors={PAGE_NEBULA} reserved={PAGE_NEBULA_BLUE} />
       <Nav active={activeSection} />
       <div className="showcase">
         <main className="showcase-text">

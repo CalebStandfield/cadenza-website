@@ -6,7 +6,7 @@ export function Nav({ active }: { active: string }) {
     <header className="nav glass">
       <a href="#about" className="nav-logo">
         <span className="logo-mark">
-          <img src="/cadenza-logo.svg" alt="" width={26} height={26} />
+          <img src="/cadenza-logo.svg" alt="" width={34} height={34} />
         </span>
         <span className="nav-logo-text">Cadenza</span>
       </a>
