@@ -1,0 +1,26 @@
+# deps
+node_modules/
+
+# build
+dist/
+*.tsbuildinfo
+.vite/
+
+# env
+.env
+.env.*
+!.env.example
+
+# scripts runtime
+.dev.pid
+.dev.log
+
+# logs
+*.log
+npm-debug.log*
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
