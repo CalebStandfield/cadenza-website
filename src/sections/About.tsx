@@ -66,7 +66,7 @@ export function About({ section }: { section: SectionDef }) {
         <a className="button brand" href="#download">
           <Icon name="download" size={18} /> Get the beta
         </a>
-        <a className="button" href="#tutorial">
+        <a className="button glass glass-interactive" href="#tutorial">
           See how it works
         </a>
       </div>

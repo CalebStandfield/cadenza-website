@@ -3,7 +3,7 @@ import { SECTIONS } from "../content/sections";
 /** Top bar: logo and a link per section, the active one highlighted. */
 export function Nav({ active }: { active: string }) {
   return (
-    <header className="nav">
+    <header className="nav glass">
       <a href="#about" className="nav-logo">
         <span className="logo-mark">
           <img src="/cadenza-logo.svg" alt="" width={26} height={26} />

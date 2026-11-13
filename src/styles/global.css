@@ -11,7 +11,7 @@ html {
   /* type grows a little on wide screens, 16px up to 19px */
   font-size: clamp(16px, 0.45vw + 9.5px, 19px);
   scroll-behavior: smooth;
-  scroll-padding-top: 72px;
+  scroll-padding-top: 96px;
 }
 
 body {
@@ -100,6 +100,12 @@ img {
 .button:hover {
   text-decoration: none;
   border-color: var(--ring);
+}
+
+/* glass buttons take their fill from .glass, not the solid button */
+.button.glass {
+  background: linear-gradient(150deg, var(--glass-tint), var(--glass-tint-end));
+  border-color: transparent;
 }
 
 .button.brand {
