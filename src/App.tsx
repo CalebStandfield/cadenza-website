@@ -5,12 +5,14 @@ import { useActiveAnchor } from "./components/useActiveAnchor";
 import { SECTIONS, type PhoneAnchor, type SectionDef } from "./content/sections";
 import { About } from "./sections/About";
 import { Download } from "./sections/Download";
+import { Team } from "./sections/Team";
 import "./styles/layout.css";
 
 /** The component that renders each section, by section id. */
 const SECTION_BODIES: Record<string, ComponentType<{ section: SectionDef }>> = {
   about: About,
   download: Download,
+  team: Team,
 };
 
 /** Sections first, then anchors nested inside them, so the nested ones win. */
