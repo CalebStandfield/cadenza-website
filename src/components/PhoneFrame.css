@@ -1,0 +1,108 @@
+.phone {
+  width: 300px;
+  aspect-ratio: 9 / 19.5;
+  padding: 11px;
+  border-radius: 50px;
+  background: #1c1c1e;
+  box-shadow:
+    0 0 0 2px #3a3a3c,
+    0 30px 80px -20px rgb(0 0 0 / 0.6);
+  flex-shrink: 0;
+}
+
+.phone-screen {
+  position: relative;
+  height: 100%;
+  border-radius: 40px;
+  overflow: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.phone-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 22px 4px 26px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.phone-island {
+  width: 82px;
+  height: 24px;
+  border-radius: 999px;
+  background: #000;
+}
+
+.phone-status-icons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.phone-signal {
+  width: 15px;
+  height: 9px;
+  background: linear-gradient(to right, currentColor 0 20%, transparent 20% 27%, currentColor 27% 47%, transparent 47% 54%, currentColor 54% 74%, transparent 74% 80%, currentColor 80%);
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+}
+
+.phone-battery {
+  width: 22px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1.5px solid currentColor;
+  box-shadow: inset 0 0 0 1.5px var(--background);
+  background: currentColor;
+  opacity: 0.9;
+}
+
+.phone-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  animation: phone-in 0.45s ease both;
+}
+
+@keyframes phone-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.phone-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 10px 14px;
+  padding: 6px 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.phone-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  font-size: 8.5px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.phone-tab.active {
+  color: var(--brand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-content {
+    animation: none;
+  }
+}
