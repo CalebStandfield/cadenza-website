@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
+import { siteFiles } from './plugins/site-files.ts'
 
 /** CSP for the built site. Inline styles stay allowed, components set CSS variables through style={{}}. */
 const CSP = [
@@ -48,7 +49,7 @@ function securityHeaders(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), securityHeaders()],
+  plugins: [react(), securityHeaders(), siteFiles()],
   server: { host: 'localhost', strictPort: true },
   preview: { host: 'localhost', strictPort: true, headers: SECURITY_HEADERS },
 })

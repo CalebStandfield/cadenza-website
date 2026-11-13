@@ -25,8 +25,19 @@ One page, four sections (About, Download, Team, Tutorial). Text scrolls on the l
 - `src/components/` - phone frame, nav, scroll tracking.
 - `src/styles/tokens.css` - colors, mirrored from the app's `client-app/src/lib/theme/tokens.ts`.
 
+## Site meta
+
+`site.config.ts` is the one place for the site's url, title, and description. `plugins/site-files.ts` turns it into the head meta (Open Graph, Twitter card, canonical, icons) and generates `robots.txt`, `sitemap.xml`, `llms.txt`, and `site.webmanifest`. Build with the real domain:
+
+```sh
+SITE_URL=https://your.domain npm run build
+```
+
+`scripts/render-images.sh` renders the PNG icons and `og-image.png` into `public/` with headless Chrome.
+
 ## TODO
 
+- Real domain as `SITE_URL` (defaults to a placeholder).
 - Real TestFlight and APK links in `src/content/downloads.ts`.
 - Bios, headshots (`public/headshots/`), and links for Kevin, Troy, and David in `src/content/team.ts`.
 
