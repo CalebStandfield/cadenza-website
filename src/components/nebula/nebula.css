@@ -1,12 +1,12 @@
 /*
- * The nebula's colors are clamped per scheme, like the app's nebulaColor:
- * lightness into a band, chroma capped, so a neon color reads as a soft glow.
+ * Colors are clamped per scheme, like the app's nebulaColor: lightness into a
+ * band, chroma capped, so a neon color reads as a soft glow.
  */
 .nebula {
   --neb-min-l: 0.5;
   --neb-max-l: 0.68;
   --neb-max-c: 0.16;
-  --neb-peak: 0.65;
+  --neb-peak: 0.32;
   position: fixed;
   inset: 0;
   z-index: -1;
@@ -19,64 +19,52 @@
     --neb-min-l: 0.72;
     --neb-max-l: 0.86;
     --neb-max-c: 0.12;
-    --neb-peak: 0.5;
+    --neb-peak: 0.3;
   }
 }
 
-.nebula-blob {
-  position: absolute;
-  opacity: 1;
-  transition: opacity 3.5s ease-in-out;
-}
-
-.nebula-blob.out {
-  opacity: 0;
-}
-
 .nebula-glow {
-  --c: oklch(from var(--blob-color) clamp(var(--neb-min-l), l, var(--neb-max-l)) min(c, var(--neb-max-c)) h);
-  width: 100%;
-  height: 100%;
+  --c: oklch(from var(--glow-color) clamp(var(--neb-min-l), l, var(--neb-max-l)) min(c, var(--neb-max-c)) h);
+  position: absolute;
+  border-radius: 50%;
+  translate: -50% -50%;
   /* eased falloff, so the edge has no visible rim */
   background: radial-gradient(
     closest-side,
     oklch(from var(--c) l c h / var(--neb-peak)) 0%,
-    oklch(from var(--c) l c h / calc(var(--neb-peak) * 0.75)) 30%,
-    oklch(from var(--c) l c h / calc(var(--neb-peak) * 0.3)) 60%,
-    oklch(from var(--c) l c h / calc(var(--neb-peak) * 0.07)) 85%,
+    oklch(from var(--c) l c h / calc(var(--neb-peak) * 0.7)) 30%,
+    oklch(from var(--c) l c h / calc(var(--neb-peak) * 0.28)) 60%,
+    oklch(from var(--c) l c h / calc(var(--neb-peak) * 0.06)) 85%,
     transparent 100%
   );
   animation:
-    nebula-size var(--size-s) var(--size-delay) ease-in-out infinite alternate,
-    nebula-glow var(--glow-s) var(--glow-delay) ease-in-out infinite alternate,
-    nebula-drift var(--drift-s) var(--drift-delay) ease-in-out infinite alternate;
-  will-change: scale, opacity, translate;
+    nebula-wander calc(var(--drift-s) * 3) var(--drift-delay) ease-in-out infinite,
+    nebula-breathe var(--breath-s) var(--breath-delay) ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 
-@keyframes nebula-size {
-  from {
-    scale: 0.88;
+/* a slow closed loop: home, first waypoint, second waypoint, home */
+@keyframes nebula-wander {
+  0%,
+  100% {
+    transform: translate(0, 0);
   }
-  to {
-    scale: 1.12;
+  33% {
+    transform: translate(var(--x1), var(--y1));
+  }
+  66% {
+    transform: translate(var(--x2), var(--y2));
   }
 }
 
-@keyframes nebula-glow {
+@keyframes nebula-breathe {
   from {
-    opacity: 0.6;
+    opacity: 0.55;
+    scale: 0.92;
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes nebula-drift {
-  from {
-    translate: -3vw 1.5vh;
-  }
-  to {
-    translate: 3vw -1.5vh;
+    scale: 1.08;
   }
 }
 
