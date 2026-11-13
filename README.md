@@ -9,9 +9,9 @@ Vite + React + TypeScript. Plain CSS, colors mirror the app's theme tokens.
 ## Scripts
 
 ```sh
-scripts/start.sh     # dev server in the background on :5173 (PORT to override)
-scripts/stop.sh      # stop it
-scripts/rebuild.sh   # stop, clean install, build, start
+scripts/dev.sh start     # dev server in the background on :5173 (PORT to override)
+scripts/dev.sh stop      # stop it
+scripts/dev.sh rebuild   # stop, clean install, build, start
 ```
 
 Or the usual `npm run dev` / `npm run build`.
