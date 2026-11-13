@@ -35,9 +35,7 @@ export const TEAM: TeamMember[] = [
     color: "#ff6467",
     bio: [
       "I'm a full stack engineer with a backend and systems lean, graduating in December 2026 from the University of Utah with a B.S. in Computer Science on the AI track, a Japanese minor, and a Data Science Certificate.",
-      "On Cadenza, our capstone, I own LLM song tagging end to end, from the backend service to the mobile UI. I also built the listening event pipeline: a persistent queue on the phone and transactional, deduplicated ingestion on the server, so a retry never counts a play twice. That log is what drives the Analytics tab, with calendar heatmaps, tag filters, and ranked listening history.",
       "In summer 2026 I was a Software Engineer Intern at Adobe, where I built an LLM code migration pipeline that moves AppMeasurement analytics code to the Web SDK, from ingest through deterministic and LLM translation to writeback.",
-      "Outside of class I'm writing a multithreaded HTTP server from scratch in Rust. I like systems work, ML that actually ships, and music, which is a big part of why Cadenza exists.",
     ],
     email: "calebjstandfield@gmail.com",
     links: {
